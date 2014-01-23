@@ -241,11 +241,7 @@ HTML
         filename = [gem_name, version]
         filename.push(platform) if platform != default_platform
         spec_file = File.join(settings.data, "quick", "Marshal.#{Gem.marshal_version}", "#{filename.join("-")}.gemspec.rz")
-        
-        File::open(spec_file, 'r') do |unzipped_spec_file|
-          unzipped_spec_file.binmode
-          Marshal.load(Gem.inflate(unzipped_spec_file.read)) if File.exists? spec_file
-        end
+        Marshal.load(Gem.inflate(File.read(spec_file))) if File.exists? spec_file
       end
 
       def default_platform
